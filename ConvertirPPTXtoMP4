@@ -1,0 +1,22 @@
+# Iniciar PowerPoint
+$PowerPoint = New-Object -ComObject PowerPoint.Application
+
+# Abrir la presentación de PowerPoint
+$PowerPoint.Visible = [Microsoft.Office.Core.MsoTriState]::msoTrue
+
+# Nombre del Archivo
+$Archivo = 0
+
+# Ciclo para obtener las direcciones de ruta de los archivos
+foreach ($file in Get-ChildItem -Path C:\Users\edgar\Desktop\PRESENTACION) {
+    $Presentacion = $file.FullName
+    $Archivo = [System.IO.Path]::GetFileNameWithoutExtension($Presentacion)
+    # Definir la ruta de salida del archivo mp4
+    $Salida = "C:\Users\edgar\Desktop\PRESENTACION\"+$Archivo+".mp4"
+    
+    # Guardar la ruta de presentación de PowerPoint
+    $PresentacionPowerPoint = $PowerPoint.Presentations.Open($Presentacion)
+
+    # Exportar la presentación de PowerPoint como un archivo de video mp4
+    $PresentacionPowerPoint.SaveAs($Salida, 39)
+}
